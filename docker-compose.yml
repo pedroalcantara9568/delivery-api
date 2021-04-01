@@ -1,0 +1,11 @@
+version: "3"
+services:
+
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ze
+      MONGO_INITDB_ROOT_PASSWORD: delivery
+      MONGO_INITDB_DATABASE: desafio
+    ports:
+      - 27017:27017
