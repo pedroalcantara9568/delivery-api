@@ -20,8 +20,8 @@ public class ParceiroServiceImpl implements ParceiroService {
         this.parceiroRepository = parceiroRepository;
     }
 
-    public ParceiroDTO cadastrar(ParceiroDTO parceiroDTO) {
-        Parceiro parceiroSalvo = this.parceiroRepository.save(ParceiroMapper.toEntity(parceiroDTO));
-        return ParceiroMapper.toDTO(parceiroSalvo);
+    public Parceiro cadastrar(ParceiroDTO parceiroDTO) {
+        Parceiro parceiro = ParceiroMapper.toEntity(parceiroDTO);
+        return this.parceiroRepository.save(parceiro);
     }
 }

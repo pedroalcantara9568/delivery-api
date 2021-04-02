@@ -1,17 +1,18 @@
 package com.example.desafio.dto;
 
-import com.mapbox.geojson.MultiPolygon;
-import com.mapbox.geojson.Point;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
 @Builder
-public class ParceiroDTO {
+public class ParceiroDTO implements Serializable {
+
+    private String id;
 
     @NotBlank
     private String tradingName;
@@ -22,8 +23,7 @@ public class ParceiroDTO {
     @NotBlank
     private String document;
 
-    public MultiPolygon coverageArea;
+    public MultiPolygonDTO coverageArea;
 
-    public Point address;
-
+    public AddressDTO address;
 }

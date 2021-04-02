@@ -1,7 +1,7 @@
 package com.example.desafio.domain;
 
-import com.mapbox.geojson.MultiPolygon;
-import com.mapbox.geojson.Point;
+import com.mapbox.services.commons.geojson.MultiPolygon;
+import com.mapbox.services.commons.geojson.Point;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -9,10 +9,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Document(collection = "parceiro")
 public class Parceiro {
 
     @Id
@@ -22,12 +22,12 @@ public class Parceiro {
 
     private String ownerName;
 
+    @Indexed(unique = true)
+    private String document;
+
     private MultiPolygon coverageArea;
 
     private Point addres;
-
-    @Indexed(unique = true)
-    private String document;
 
     public String getDocument() {
         return document;
@@ -77,3 +77,6 @@ public class Parceiro {
         this.ownerName = ownerName;
     }
 }
+
+
+
