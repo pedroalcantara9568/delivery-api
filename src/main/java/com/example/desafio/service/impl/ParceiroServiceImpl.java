@@ -13,10 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ParceiroServiceImpl implements ParceiroService {
 
+    private final ParceiroRepository parceiroRepository;
 
     @Autowired
-    ParceiroRepository parceiroRepository;
-
+    public ParceiroServiceImpl(ParceiroRepository parceiroRepository) {
+        this.parceiroRepository = parceiroRepository;
+    }
 
     public ParceiroDTO cadastrar(ParceiroDTO parceiroDTO) {
         Parceiro parceiroSalvo = this.parceiroRepository.save(ParceiroMapper.toEntity(parceiroDTO));
