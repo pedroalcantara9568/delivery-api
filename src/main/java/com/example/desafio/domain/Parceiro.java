@@ -1,7 +1,8 @@
 package com.example.desafio.domain;
 
+import com.mapbox.geojson.Point;
 import com.mapbox.services.commons.geojson.MultiPolygon;
-import com.mapbox.services.commons.geojson.Point;
+import com.mapbox.turf.TurfMeasurement;
 import lombok.Builder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -47,6 +48,11 @@ public class Parceiro implements Serializable {
 
     public Addres getAddres() {
         return addres;
+    }
+
+    public double distanciaDe(Point pontoReferencia) {
+        Point point = Point.fromJson(this.getAddres().toJson());
+        return TurfMeasurement.distance(pontoReferencia, point);
     }
 }
 

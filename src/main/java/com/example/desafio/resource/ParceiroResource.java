@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import static com.example.desafio.dto.mapper.ParceiroMapper.toDTO;
 import static com.example.desafio.dto.mapper.ParceiroMapper.toEntity;
 
 @RestController
@@ -26,13 +27,20 @@ public class ParceiroResource {
     @PostMapping
     public ResponseEntity cadastrarParceiro(@RequestBody @Valid ParceiroDTO parceiroDTO) throws URISyntaxException {
         ParceiroDTO parceiroCadastrado = parceiroService.cadastrar(toEntity(parceiroDTO));
-        return ResponseEntity.created(new URI(String.format("%s/%s", "/parceiros", parceiroCadastrado.getId()))).build();
+        return ResponseEntity.created(new URI(parceiroCadastrado.getId())).build();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ParceiroDTO> buscarPorId(@PathVariable("id") String id) {
         ParceiroDTO parceiroDTO = parceiroService.buscarPorId(id);
         return ResponseEntity.ok(parceiroDTO);
+    }
+
+    @GetMapping("/proximo")
+    public ResponseEntity<ParceiroDTO> buscarParceiro(@RequestParam("long") double lng, @RequestParam("lat") double lat) {
+        return parceiroService.buscarPorEndereco(lng, lat)
+                .map(parceiro -> ResponseEntity.ok(toDTO(parceiro)))
+                .orElse(ResponseEntity.notFound().build());
     }
 
 }

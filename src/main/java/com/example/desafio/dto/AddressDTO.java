@@ -11,12 +11,8 @@ import javax.validation.constraints.Size;
 
 public class AddressDTO {
 
-    @NotNull
-    @Pattern(regexp = "Point")
     private String type;
 
-    @NotNull
-    @Size(min = 2, max = 2)
     private double[] coordinates;
 
     public String getType() {

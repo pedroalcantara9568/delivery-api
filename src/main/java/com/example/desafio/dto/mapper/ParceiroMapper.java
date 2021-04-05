@@ -15,6 +15,8 @@ public class ParceiroMapper {
         CoverageArea coverageArea = CoverageArea.fromJson(parceiroDTO.coverageArea.toJson());
         Addres addres = Addres.fromJson(parceiroDTO.getAddress().toJson());
 
+       System.out.println(coverageArea.toString());
+
         return Parceiro.builder()
                 .tradingName(parceiroDTO.getTradingName())
                 .ownerName(parceiroDTO.getOwnerName())

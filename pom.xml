@@ -60,6 +60,11 @@
             <artifactId>spring-webmvc</artifactId>
             <version>4.3.18.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

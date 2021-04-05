@@ -1,14 +1,17 @@
 package com.example.desafio.service.impl;
 
+import com.example.desafio.domain.Addres;
 import com.example.desafio.domain.Parceiro;
 import com.example.desafio.dto.ParceiroDTO;
 import com.example.desafio.exception.DocumentoDuplicadoException;
 import com.example.desafio.repository.ParceiroRepository;
 import com.example.desafio.service.ParceiroService;
+import com.mapbox.geojson.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.Optional;
 
 import static com.example.desafio.dto.mapper.ParceiroMapper.toDTO;
@@ -39,4 +42,20 @@ public class ParceiroServiceImpl implements ParceiroService {
         }
         return null;
     }
+
+    @Override
+    public Optional<Parceiro> buscarPorEndereco(double lng, double ltd) {
+        Point pontoReferencia = Point.fromLngLat(lng, ltd);
+        Addres addres = Addres.fromJson(pontoReferencia.toJson());
+
+        return obterPontoMaisProximo(pontoReferencia, addres);
+    }
+
+    private Optional<Parceiro> obterPontoMaisProximo(Point pontoReferencia, Addres addres) {
+        return parceiroRepository.findAll()
+                .stream().sorted(Comparator.comparing(parceiro -> parceiro.distanciaDe(pontoReferencia)))
+                .filter(parceiro -> parceiro.getCoverageArea().estaContido(addres))
+                .findFirst();
+    }
+
 }

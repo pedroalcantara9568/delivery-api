@@ -5,20 +5,26 @@ import com.mapbox.services.commons.geojson.custom.PositionDeserializer;
 import com.mapbox.services.commons.geojson.custom.PositionSerializer;
 import com.mapbox.services.commons.models.Position;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class Addres implements Serializable {
 
-    @NotNull
-    @Pattern(regexp = "Point")
     private String type;
 
-    @NotNull
-    @Size(min = 2, max = 2)
-    private double[] coordinates;
+    private double[] coordinates = new double[2];
+
+    public Addres(String type, double[] coordinates) {
+        this.type = type;
+        this.coordinates = coordinates;
+    }
+
+    public double[] getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(double[] coordinates) {
+        this.coordinates = coordinates;
+    }
 
     public static Addres fromJson(String json) {
         GsonBuilder gson = new GsonBuilder();
