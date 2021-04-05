@@ -1,26 +1,26 @@
 package com.example.desafio.dto.mapper;
 
+import com.example.desafio.domain.Addres;
+import com.example.desafio.domain.CoverageArea;
 import com.example.desafio.domain.Parceiro;
 import com.example.desafio.dto.AddressDTO;
 import com.example.desafio.dto.MultiPolygonDTO;
 import com.example.desafio.dto.ParceiroDTO;
-import com.mapbox.services.commons.geojson.MultiPolygon;
-import com.mapbox.services.commons.geojson.Point;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ParceiroMapper {
 
     public static Parceiro toEntity(ParceiroDTO parceiroDTO) {
-        MultiPolygon multiPolygon = MultiPolygon.fromCoordinates(parceiroDTO.coverageArea.getCoordinates());
-        Point point = Point.fromCoordinates(parceiroDTO.address.getCoordinates());
+        CoverageArea coverageArea = CoverageArea.fromJson(parceiroDTO.coverageArea.toJson());
+        Addres addres = Addres.fromJson(parceiroDTO.getAddress().toJson());
 
         return Parceiro.builder()
                 .tradingName(parceiroDTO.getTradingName())
                 .ownerName(parceiroDTO.getOwnerName())
                 .document(parceiroDTO.getDocument())
-                .coverageArea(multiPolygon)
-                .addres(point)
+                .coverageArea(coverageArea)
+                .addres(addres)
                 .build();
     }
 

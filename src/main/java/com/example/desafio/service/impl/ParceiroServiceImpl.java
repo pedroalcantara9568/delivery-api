@@ -18,9 +18,25 @@ import static com.example.desafio.dto.mapper.ParceiroMapper.toDTO;
 public class ParceiroServiceImpl implements ParceiroService {
 
     @Autowired
-    ParceiroRepository parceiroRepository;
+    private final ParceiroRepository parceiroRepository;
+
+    public ParceiroServiceImpl(ParceiroRepository parceiroRepository) {
+        this.parceiroRepository = parceiroRepository;
+    }
 
     public ParceiroDTO cadastrar(Parceiro parceiro) {
+        parceiroRepository.findParceiroByDocument(parceiro.getDocument()).ifPresent(parceiroConsultado -> {
+            throw new DocumentoDuplicadoException("");
+        });
         return toDTO(parceiroRepository.save(parceiro));
+    }
+
+    @Override
+    public ParceiroDTO buscarPorId(String id) {
+        Optional<Parceiro> parceiroConsultado = parceiroRepository.findById(id);
+        if (parceiroConsultado.isPresent()) {
+            return toDTO(parceiroConsultado.get());
+        }
+        return null;
     }
 }

@@ -21,9 +21,9 @@ public class Parceiro implements Serializable {
 
     private String document;
 
-    private MultiPolygon coverageArea;
+    private CoverageArea coverageArea;
 
-    private Point addres;
+    private Addres addres;
 
     public String getId() {
         return id;
@@ -41,11 +41,11 @@ public class Parceiro implements Serializable {
         return document;
     }
 
-    public MultiPolygon getCoverageArea() {
+    public CoverageArea getCoverageArea() {
         return coverageArea;
     }
 
-    public Point getAddres() {
+    public Addres getAddres() {
         return addres;
     }
 }

@@ -8,4 +8,6 @@ import org.springframework.stereotype.Service;
 public interface ParceiroService {
 
     ParceiroDTO cadastrar(Parceiro parceiro);
+
+    ParceiroDTO buscarPorId(String id);
 }
