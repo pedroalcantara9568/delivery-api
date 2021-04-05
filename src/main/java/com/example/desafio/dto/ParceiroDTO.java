@@ -14,13 +14,10 @@ public class ParceiroDTO implements Serializable {
 
     private String id;
 
-    @NotBlank
     private String tradingName;
 
-    @NotBlank
     private String ownerName;
 
-    @NotBlank
     private String document;
 
     public MultiPolygonDTO coverageArea;

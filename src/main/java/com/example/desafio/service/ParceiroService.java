@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ParceiroService {
 
-    Parceiro cadastrar(ParceiroDTO parceiroDTO);
+    ParceiroDTO cadastrar(Parceiro parceiro);
 }
