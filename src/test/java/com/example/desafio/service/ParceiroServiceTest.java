@@ -43,15 +43,13 @@ public class ParceiroServiceTest {
                 Point.fromLngLat(10, 20),
                 Point.fromLngLat(5, 10),
                 Point.fromLngLat(15, 5)));
-
         Polygon polygon = Polygon.fromLngLats(coordenadas);
         MultiPolygon multiPolygon = MultiPolygon.fromPolygon(polygon);
-
         CoverageArea coverageArea = CoverageArea.fromJson(multiPolygon.toJson());
+
 
         double[] arapiraca = {25, 25};
         Addres endereco1 = new Addres("Point", arapiraca);
-
         parceiroArapiraca = Parceiro.builder()
                 .id("1")
                 .document("10323323232")
@@ -64,7 +62,6 @@ public class ParceiroServiceTest {
 
         double[] maceio = {30, 30};
         Addres endereco2 = new Addres("Point", maceio);
-
         parceiroMaceio = Parceiro.builder()
                 .id("2")
                 .document("32323423232")
@@ -73,6 +70,7 @@ public class ParceiroServiceTest {
                 .addres(endereco2)
                 .coverageArea(coverageArea)
                 .build();
+
 
         this.parceiroRepository = mock(ParceiroRepository.class);
         Mockito.when(parceiroRepository.findAll()).thenReturn(asList(parceiroArapiraca , parceiroMaceio));
@@ -96,17 +94,19 @@ public class ParceiroServiceTest {
     }
 
     @Test
-    @DisplayName("parceiro de Arapiraca deve ser o mais próximo")
+    @DisplayName("parceiro de Maceió deve ser o mais próximo")
     public void parceiroMaceioDeveserMaisProximo() {
-        Optional<Parceiro> parceiro = this.parceiroService.buscarPorEndereco(28.0, 28.0);
+        // maceio = {30, 30};
+        Optional<Parceiro> parceiro = this.parceiroService.buscarPorEndereco(27.6, 27.6);
 
-        Assertions.assertEquals(parceiro.isPresent(),true);
+        Assertions.assertEquals(parceiro.get(),parceiroMaceio);
     }
 
     @Test
     @DisplayName("parceiro de Arapiraca deve ser o mais próximo")
     public void parceiroArapiracaDeveserMaisProximo() {
-        Optional<Parceiro> parceiro = this.parceiroService.buscarPorEndereco(26.0, 26.0);
+        // arapiraca = {25, 25};
+        Optional<Parceiro> parceiro = this.parceiroService.buscarPorEndereco(27.4, 27.4);
 
         Assertions.assertEquals(parceiro.get(),parceiroArapiraca);
     }
