@@ -46,6 +46,7 @@ public class ParceiroServiceTest {
                 Point.fromLngLat(5, 10),
                 Point.fromLngLat(15, 5)));
         Polygon polygon = Polygon.fromLngLats(coordenadas);
+
         MultiPolygon multiPolygon = MultiPolygon.fromPolygon(polygon);
         CoverageArea coverageArea = CoverageArea.fromJson(multiPolygon.toJson());
 

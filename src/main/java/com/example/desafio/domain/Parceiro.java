@@ -1,9 +1,6 @@
 package com.example.desafio.domain;
 
 import com.mapbox.geojson.Point;
-import com.mapbox.services.commons.geojson.MultiPolygon;
-import com.mapbox.turf.TurfConstants;
-import com.mapbox.turf.TurfMeasurement;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -63,7 +60,7 @@ public class Parceiro implements Serializable {
         return addres;
     }
 
-    public boolean atendeRegiao(Addres addres){
+    public boolean atendeRegiao(Addres addres) {
         return this.coverageArea.estaContido(addres);
     }
 
