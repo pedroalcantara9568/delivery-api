@@ -6,13 +6,17 @@ import com.mapbox.services.commons.geojson.custom.PositionDeserializer;
 import com.mapbox.services.commons.geojson.custom.PositionSerializer;
 import com.mapbox.services.commons.models.Position;
 
-public class MultiPolygonDTO {
+public class CoverageAreaDTO {
 
     private String type;
 
     private double[][][][] coordinates;
 
-    public MultiPolygonDTO(String type, double[][][][] coordinates) {
+    public CoverageAreaDTO() {
+
+    }
+
+    public CoverageAreaDTO(String type, double[][][][] coordinates) {
         this.type = type;
         this.coordinates = coordinates;
     }
@@ -25,10 +29,10 @@ public class MultiPolygonDTO {
         return coordinates;
     }
 
-    public static MultiPolygonDTO fromJson(String json) {
+    public static CoverageAreaDTO fromJson(String json) {
         GsonBuilder gson = new GsonBuilder();
         gson.registerTypeAdapter(Position.class, new PositionDeserializer());
-        return (MultiPolygonDTO) gson.create().fromJson(json, MultiPolygonDTO.class);
+        return (CoverageAreaDTO) gson.create().fromJson(json, CoverageAreaDTO.class);
     }
 
     public String toJson() {

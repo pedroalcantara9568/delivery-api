@@ -4,6 +4,7 @@ import com.example.desafio.dto.ParceiroDTO;
 import com.example.desafio.service.ParceiroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -17,12 +18,8 @@ import static com.example.desafio.dto.mapper.ParceiroMapper.toEntity;
 @RequestMapping("/parceiros")
 public class ParceiroResource {
 
-    final private ParceiroService parceiroService;
-
     @Autowired
-    public ParceiroResource(ParceiroService parceiroService) {
-        this.parceiroService = parceiroService;
-    }
+    private ParceiroService parceiroService;
 
     @PostMapping
     public ResponseEntity cadastrarParceiro(@RequestBody @Valid ParceiroDTO parceiroDTO) throws URISyntaxException {

@@ -4,13 +4,17 @@ import com.mapbox.geojson.Point;
 import com.mapbox.services.commons.geojson.MultiPolygon;
 import com.mapbox.turf.TurfConstants;
 import com.mapbox.turf.TurfMeasurement;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Document(collection = "parceiros")
 public class Parceiro implements Serializable {
 
@@ -26,6 +30,14 @@ public class Parceiro implements Serializable {
     private CoverageArea coverageArea;
 
     private Addres addres;
+
+    public Parceiro(Addres addres, CoverageArea coverageArea, String document, String ownerName, String tradingName) {
+        this.addres = addres;
+        this.coverageArea = coverageArea;
+        this.document = document;
+        this.ownerName = ownerName;
+        this.tradingName = tradingName;
+    }
 
     public String getId() {
         return id;
@@ -51,10 +63,16 @@ public class Parceiro implements Serializable {
         return addres;
     }
 
+    public boolean atendeRegiao(Addres addres){
+        return this.coverageArea.estaContido(addres);
+    }
+
     public double distanciaDe(Point pontoReferencia) {
         Point point = Point.fromJson(this.getAddres().toJson());
-        return TurfMeasurement.distance(pontoReferencia, point, TurfConstants.UNIT_CENTIMETERS);
+        return this.getCoverageArea().distanciaEmCentimetros(point, pontoReferencia);
     }
+
+
 }
 
 

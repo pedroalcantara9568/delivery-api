@@ -18,6 +18,10 @@ public class Addres implements Serializable {
         this.coordinates = coordinates;
     }
 
+    public String getType() {
+        return type;
+    }
+
     public double[] getCoordinates() {
         return coordinates;
     }
@@ -37,5 +41,4 @@ public class Addres implements Serializable {
         gson.registerTypeAdapter(Position.class, new PositionSerializer());
         return gson.create().toJson(this);
     }
-
 }

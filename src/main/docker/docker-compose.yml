@@ -1,0 +1,38 @@
+version: "3"
+services:
+
+  app:
+    image: desafio-delivery
+    environment:
+      MONGODB_HOST: mongo
+      MONGODB_PORT: 27017
+      MONGODB_AUTH_DATABASE: admin
+      MONGODB_USER_NAME: ze
+      MONGODB_USER_PASSWORD: delivery
+      MONGODB_COLLECTION_NAME: desafio
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    networks:
+      - spring-mongo-net
+
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ze
+      MONGO_INITDB_ROOT_PASSWORD: delivery
+      MONGO_INITDB_DATABASE: desafio
+    ports:
+      - 27017:27017
+    networks:
+      - spring-mongo-net
+
+
+networks:
+  spring-mongo-net:
+    driver: bridge
+
+

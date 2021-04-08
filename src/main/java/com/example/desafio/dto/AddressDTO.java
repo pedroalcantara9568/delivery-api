@@ -8,6 +8,7 @@ import com.mapbox.services.commons.models.Position;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Arrays;
 
 public class AddressDTO {
 
@@ -15,9 +16,18 @@ public class AddressDTO {
 
     private double[] coordinates;
 
+    public AddressDTO() {
+    }
+
+    public AddressDTO(String type, double[] coordinates) {
+        this.type = type;
+        this.coordinates = coordinates;
+    }
+
     public String getType() {
         return type;
     }
+
 
     public void setType(String type) {
         this.type = type;
@@ -42,5 +52,6 @@ public class AddressDTO {
         gson.registerTypeAdapter(Position.class, new PositionSerializer());
         return gson.create().toJson(this);
     }
+
 
 }

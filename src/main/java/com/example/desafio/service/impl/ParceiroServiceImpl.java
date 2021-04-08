@@ -27,6 +27,7 @@ public class ParceiroServiceImpl implements ParceiroService {
         this.parceiroRepository = parceiroRepository;
     }
 
+    @Override
     public ParceiroDTO cadastrar(Parceiro parceiro) {
         parceiroRepository.findParceiroByDocument(parceiro.getDocument()).ifPresent(parceiroConsultado -> {
             throw new DocumentoDuplicadoException("");
@@ -54,7 +55,7 @@ public class ParceiroServiceImpl implements ParceiroService {
     private Optional<Parceiro> obterPontoMaisProximo(Point pontoReferencia, Addres addres) {
         return parceiroRepository.findAll()
                 .stream().sorted(Comparator.comparing(parceiro -> parceiro.distanciaDe(pontoReferencia)))
-                .filter(parceiro -> parceiro.getCoverageArea().estaContido(addres))
+                .filter(parceiro -> parceiro.atendeRegiao(addres))
                 .findFirst();
     }
 

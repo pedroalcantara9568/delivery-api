@@ -15,6 +15,5 @@ public interface ParceiroRepository extends MongoRepository<Parceiro, String> {
     @Query("{ 'document' : ?0}")
     Optional<Parceiro> findParceiroByDocument(String document);
 
-    Optional<Parceiro> findParceiroByAddres(Addres addres);
 
 }

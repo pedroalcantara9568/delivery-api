@@ -3,15 +3,15 @@ package com.example.desafio.service;
 import com.example.desafio.domain.Addres;
 import com.example.desafio.domain.CoverageArea;
 import com.example.desafio.domain.Parceiro;
+import com.example.desafio.dto.ParceiroDTO;
 import com.example.desafio.repository.ParceiroRepository;
 import com.example.desafio.service.impl.ParceiroServiceImpl;
 import com.mapbox.geojson.MultiPolygon;
 import com.mapbox.geojson.Point;
 import com.mapbox.geojson.Polygon;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Collections;
@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.Arrays.asList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 
 public class ParceiroServiceTest {
@@ -31,7 +33,7 @@ public class ParceiroServiceTest {
 
     private Parceiro parceiroArapiraca;
 
-    @Before
+    @BeforeEach
     public void setup() {
         List<List<Point>> coordenadas = Collections.singletonList(asList(
                 Point.fromLngLat(30, 20),
@@ -73,20 +75,39 @@ public class ParceiroServiceTest {
 
 
         this.parceiroRepository = mock(ParceiroRepository.class);
-        Mockito.when(parceiroRepository.findAll()).thenReturn(asList(parceiroArapiraca , parceiroMaceio));
         this.parceiroService = new ParceiroServiceImpl(parceiroRepository);
+
+        Mockito.when(parceiroRepository.findById(any(String.class))).thenReturn(Optional.of(parceiroArapiraca));
+        Mockito.when(parceiroRepository.findAll()).thenReturn(asList(parceiroArapiraca, parceiroMaceio));
+        Mockito.when(parceiroRepository.save(parceiroArapiraca)).thenReturn(parceiroArapiraca);
     }
 
     @Test
-    @DisplayName("deve retornar Algum parceiro")
+    public void deveRetornarParceiroPorDocument() {
+        ParceiroDTO parceiroDTO = this.parceiroService.cadastrar(parceiroArapiraca);
+
+        assertEquals(parceiroArapiraca.getOwnerName(), parceiroDTO.getOwnerName());
+        assertEquals(parceiroArapiraca.getDocument(), parceiroDTO.getDocument());
+        assertEquals(parceiroArapiraca.getTradingName(), parceiroDTO.getTradingName());
+    }
+
+    @Test
+    public void deveRetornarParceiroPorId() {
+        ParceiroDTO parceiroDTO = this.parceiroService.buscarPorId("123456");
+
+        assertEquals(parceiroArapiraca.getOwnerName(), parceiroDTO.getOwnerName());
+        assertEquals(parceiroArapiraca.getDocument(), parceiroDTO.getDocument());
+        assertEquals(parceiroArapiraca.getTradingName(), parceiroDTO.getTradingName());
+    }
+
+    @Test
     public void deveRetornarAlgumParceiro() {
-        Optional<Parceiro> parceiro = this.parceiroService.buscarPorEndereco(29.0, 29.0);
+        Optional<Parceiro> parceiro = this.parceiroService.buscarPorEndereco(27.5, 27.5);
 
         Assertions.assertTrue(parceiro.isPresent());
     }
 
     @Test
-    @DisplayName("nao deve retornar nenhum parceiro")
     public void naoDeveRetornarNenhumParceiro() {
         Optional<Parceiro> parceiro = this.parceiroService.buscarPorEndereco(-50.0, -50.0);
 
@@ -94,21 +115,20 @@ public class ParceiroServiceTest {
     }
 
     @Test
-    @DisplayName("parceiro de Maceió deve ser o mais próximo")
     public void parceiroMaceioDeveserMaisProximo() {
         // maceio = {30, 30};
         Optional<Parceiro> parceiro = this.parceiroService.buscarPorEndereco(27.6, 27.6);
 
-        Assertions.assertEquals(parceiro.get(),parceiroMaceio);
+        assertEquals(parceiro.get(), parceiroMaceio);
     }
 
     @Test
-    @DisplayName("parceiro de Arapiraca deve ser o mais próximo")
     public void parceiroArapiracaDeveserMaisProximo() {
         // arapiraca = {25, 25};
         Optional<Parceiro> parceiro = this.parceiroService.buscarPorEndereco(27.4, 27.4);
 
-        Assertions.assertEquals(parceiro.get(),parceiroArapiraca);
+        assertEquals(parceiro.get(), parceiroArapiraca);
     }
+
 
 }

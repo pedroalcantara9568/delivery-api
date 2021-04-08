@@ -4,7 +4,7 @@ import com.example.desafio.domain.Addres;
 import com.example.desafio.domain.CoverageArea;
 import com.example.desafio.domain.Parceiro;
 import com.example.desafio.dto.AddressDTO;
-import com.example.desafio.dto.MultiPolygonDTO;
+import com.example.desafio.dto.CoverageAreaDTO;
 import com.example.desafio.dto.ParceiroDTO;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +12,8 @@ import org.springframework.stereotype.Component;
 public class ParceiroMapper {
 
     public static Parceiro toEntity(ParceiroDTO parceiroDTO) {
-        CoverageArea coverageArea = CoverageArea.fromJson(parceiroDTO.coverageArea.toJson());
-        Addres addres = Addres.fromJson(parceiroDTO.getAddress().toJson());
-
-       System.out.println(coverageArea.toString());
+        Addres addres = AddresMapper.toEntity(parceiroDTO.address);
+        CoverageArea coverageArea = CoverageAreaMapper.toEntity(parceiroDTO.coverageArea);
 
         return Parceiro.builder()
                 .tradingName(parceiroDTO.getTradingName())
@@ -27,15 +25,15 @@ public class ParceiroMapper {
     }
 
     public static ParceiroDTO toDTO(Parceiro parceiro) {
-        MultiPolygonDTO multiPolygonDTO = MultiPolygonDTO.fromJson(parceiro.getCoverageArea().toJson());
-        AddressDTO addressDTO = AddressDTO.fromJson(parceiro.getAddres().toJson());
+        AddressDTO addressDTO = AddresMapper.toDTO(parceiro.getAddres());
+        CoverageAreaDTO coverageAreaDTO = CoverageAreaMapper.toDTO(parceiro.getCoverageArea());
 
         return ParceiroDTO.builder()
                 .id(parceiro.getId())
                 .tradingName(parceiro.getTradingName())
                 .ownerName(parceiro.getOwnerName())
                 .document(parceiro.getDocument())
-                .coverageArea(multiPolygonDTO)
+                .coverageArea(coverageAreaDTO)
                 .address(addressDTO)
                 .build();
     }
