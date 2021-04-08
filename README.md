@@ -1,14 +1,14 @@
 # Desafio-delivery
 
-##Pré requisitos
-- ####Maven 
-- ####Docker
+## Pré requisitos
+- #### Maven 
+- #### Docker
 - #### Java 8
 
-#Ambiente
+# Ambiente
 
 
-###Linux
+### Linux
 
 ```
 ./mvnw package 
@@ -22,7 +22,7 @@ docker build -t desafio-delivery .
 docker-compose -f docker-compose.yml up -d
 ``` 
 
-###Windows
+### Windows
 
 ```
 mvnw package 
@@ -36,10 +36,10 @@ docker build -t desafio-delivery .
 docker-compose -f docker-compose.yml up -d
 ``` 
 
-##Endpoints
+## Endpoints
 
 
-###Cadastrar Parceiro
+### Cadastrar Parceiro
 
 ```
 POST http://localhost:8080/parceiros
