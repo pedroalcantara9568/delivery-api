@@ -1,13 +1,29 @@
 # Desafio-delivery
 
 ##Pré requisitos
-- Maven 
-- Docker
+- ####Maven 
+- ####Docker
+#Ambiente
 
-##Ambiente
+
+###Linux
 
 ```
-./mvnw package && java -jar target/desafio-delivery.jar
+./mvnw package 
+``` 
+
+```
+docker build -t desafio-delivery .
+``` 
+
+```
+docker-compose -f docker-compose.yml up -d
+``` 
+
+###Windows
+
+```
+mvnw package 
 ``` 
 
 ```
