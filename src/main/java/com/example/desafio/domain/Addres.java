@@ -26,10 +26,6 @@ public class Addres implements Serializable {
         return coordinates;
     }
 
-    public void setCoordinates(double[] coordinates) {
-        this.coordinates = coordinates;
-    }
-
     public static Addres fromJson(String json) {
         GsonBuilder gson = new GsonBuilder();
         gson.registerTypeAdapter(Position.class, new PositionDeserializer());

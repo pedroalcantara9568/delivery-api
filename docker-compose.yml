@@ -1,11 +1,30 @@
 version: "3"
+
 services:
 
-  mongo:
+  spring-mongo-api:
+    container_name: desafio-mongo-api
+    image: desafio-delivery:latest
+    environment:
+      - SPRING_DATA_MONGODB_HOST=mongo-db
+      - SPRING_DATA_MONGODB_PORT=27017
+      - SPRING_DATA_MONGODB_DATABASE=mongo
+      - SPRING_DATA_MONGODB_USERNAME=root
+      - SPRING_DATA_MONGODB_PASSWORD=root
+      - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=admin
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongo-db
+    links:
+      - mongo-db
+
+  mongo-db:
+    container_name: mongo-db
     image: mongo
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ze
-      MONGO_INITDB_ROOT_PASSWORD: delivery
-      MONGO_INITDB_DATABASE: desafio
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGODB_APPLICATION_DATABASE=mongo
     ports:
       - 27017:27017
