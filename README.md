@@ -3,6 +3,8 @@
 ##Pré requisitos
 - ####Maven 
 - ####Docker
+- #### Java 8
+
 #Ambiente
 
 
